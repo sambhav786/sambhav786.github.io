@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Photography | Sambhav</title>
+  <style>
+    :root {
+      --bg: #f5f5f7;
+      --surface: #ffffff;
+      --surface-soft: #f3f4f6;
+      --text: #111827;
+      --muted: #4b5563;
+      --accent: #111827;
+      --accent-strong: #000000;
+      --border: rgba(17, 24, 39, 0.12);
+      --radius: 24px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: radial-gradient(circle at top, rgba(17, 24, 39, 0.04), transparent 32%),
+        linear-gradient(180deg, #f6f6f8 0%, #ececf0 100%);
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(14px);
+      background: rgba(255, 255, 255, 0.95);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 22px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s ease;
+      font-size: 0.95rem;
+    }
+
+    nav a:hover,
+    nav a:focus-visible {
+      color: var(--text);
+    }
+
+    .page {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+      display: grid;
+      gap: 42px;
+    }
+
+    .hero {
+      display: grid;
+      gap: 28px;
+    }
+
+    .hero-copy {
+      max-width: 740px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--accent);
+      font-size: 0.95rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 36px;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.55;
+    }
+
+    .hero-title {
+      margin: 18px 0 24px;
+      font-size: clamp(2.6rem, 5vw, 4.2rem);
+      line-height: 0.98;
+    }
+
+    .hero-text {
+      max-width: 680px;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .gallery-grid {
+      display: grid;
+      gap: 24px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .photo-card {
+      display: grid;
+      gap: 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      min-height: 280px;
+    }
+
+    .photo-card h3 {
+      margin: 0;
+      font-size: 1.15rem;
+    }
+
+    .photo-card p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .photo-card .photo-preview {
+      width: 100%;
+      min-height: 180px;
+      border-radius: 20px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #d9d9dd, #f8f8fb);
+      display: grid;
+      place-items: center;
+      cursor: zoom-in;
+    }
+
+    .photo-card .photo-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .photo-card .photo-preview:hover img {
+      transform: scale(1.03);
+    }
+
+    .lightbox-overlay {
+      position: fixed;
+      inset: 0;
+      display: none;
+      place-items: center;
+      background: rgba(15, 23, 42, 0.86);
+      z-index: 50;
+      padding: 24px;
+    }
+
+    .lightbox-overlay.active {
+      display: grid;
+    }
+
+    .lightbox-image {
+      max-width: 96vw;
+      max-height: 90vh;
+      width: auto;
+      height: auto;
+      border-radius: 20px;
+      box-shadow: 0 40px 120px rgba(0, 0, 0, 0.4);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      width: 44px;
+      height: 44px;
+      border: none;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+      font-size: 1.8rem;
+      line-height: 1;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+    }
+
+    .section-title {
+      margin: 0 0 24px;
+      font-size: 0.95rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+    }
+
+    .card h2,
+    .card h3,
+    .card h4 {
+      margin: 0 0 16px;
+    }
+
+    .card p {
+      margin: 0 0 16px;
+      color: var(--muted);
+    }
+
+    .contact-card {
+      display: grid;
+      gap: 20px;
+      padding: 36px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .contact-grid {
+      display: grid;
+      gap: 24px;
+      grid-template-columns: 1.2fr 0.8fr;
+    }
+
+    .contact-label {
+      color: var(--muted);
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    .contact-value {
+      color: var(--text);
+      font-size: 1.05rem;
+      word-break: break-word;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 24px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .button-primary {
+      background: var(--accent-strong);
+      color: #ffffff;
+    }
+
+    .button-secondary {
+      border-color: var(--border);
+      color: var(--text);
+      background: var(--surface-soft);
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    @media (max-width: 940px) {
+      .gallery-grid,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        padding: 28px 18px 64px;
+      }
+
+      .hero-title {
+        font-size: clamp(2.2rem, 9vw, 3rem);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="topbar">
+      <div class="brand">Sambhav</div>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="index.html#about">About Me</a>
+        <a href="blog.html">Blog</a>
+        <a href="photography.html">Photography</a>
+        <a href="index.html#skills">Skills</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow">Photography</span>
+        <h1 class="hero-title">A dedicated gallery for visual storytelling and creative shoots.</h1>
+        <p class="hero-text">Explore photography work built to complement personal and professional brands, software projects, and creative portfolios. Each image is designed to reflect a polished and memorable visual style.</p>
+      </div>
+    </section>
+
+    <section>
+      <p class="section-title">Photography gallery</p>
+      <div class="gallery-grid">
+        <article class="photo-card">
+          <div class="photo-preview"><img src="https://picsum.photos/id/1015/800/500" alt="Landscape photography"></div>
+          <h3>Landscape Series</h3>
+          <p>Wide-format outdoor photography with careful lighting and composure to match premium brand imagery.</p>
+        </article>
+        <article class="photo-card">
+          <div class="photo-preview"><img src="https://picsum.photos/id/1027/800/500" alt="Portrait photography"></div>
+          <h3>Portrait Sessions</h3>
+          <p>Professional portraits created for personal branding, social profiles, and creative portfolios.</p>
+        </article>
+        <article class="photo-card">
+          <div class="photo-preview"><img src="https://picsum.photos/id/1025/800/500" alt="Studio photography"></div>
+          <h3>Studio Shoots</h3>
+          <p>Clean, controlled lighting and minimal styling for polished brand imagery that feels modern and crisp.</p>
+        </article>
+        <article class="photo-card">
+          <div class="photo-preview"><img src="https://picsum.photos/id/1037/800/500" alt="Product photography"></div>
+          <h3>Product Imagery</h3>
+          <p>High-quality product and technical visuals crafted to support applications, marketing materials, and brand communications.</p>
+        </article>
+        <article class="photo-card">
+          <div class="photo-preview"><img src="https://picsum.photos/id/1043/800/500" alt="Creative concept photography"></div>
+          <h3>Creative Concepts</h3>
+          <p>Visual storytelling through unique compositions, texture, and mood to create memorable brand moments.</p>
+        </article>
+        <article class="photo-card">
+          <div class="photo-preview"><img src="https://picsum.photos/id/1050/800/500" alt="Event photography"></div>
+          <h3>Event Coverage</h3>
+          <p>Documentary-style photography for launch events, workshops, and creative gatherings.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="section-title">Contact</p>
+      <div class="contact-card">
+        <div class="contact-grid">
+          <div>
+            <div>
+              <p class="contact-label">Email</p>
+              <p class="contact-value"><a href="mailto:hello@sambhav.com">hello@sambhav.com</a></p>
+            </div>
+            <div>
+              <p class="contact-label">Location</p>
+              <p class="contact-value">Remote / Anywhere</p>
+            </div>
+          </div>
+          <div>
+            <h3>Want to collaborate?</h3>
+            <p>Reach out to discuss photography, website visuals, or a combined creative package for your personal brand.</p>
+            <a class="button button-primary" href="mailto:hello@sambhav.com">Email me</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="lightbox-overlay" id="lightboxOverlay" aria-hidden="true">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close lightbox">×</button>
+    <img class="lightbox-image" id="lightboxImage" src="" alt="" />
+  </div>
+
+  <footer>
+    © 2026 Sambhav. Photography and portfolio imagery.
+  </footer>
+
+  <script>
+    const lightboxOverlay = document.getElementById('lightboxOverlay');
+    const lightboxImage = document.getElementById('lightboxImage');
+    const lightboxClose = document.getElementById('lightboxClose');
+    const photoPreviews = document.querySelectorAll('.photo-card .photo-preview img');
+
+    function openLightbox(src, alt) {
+      lightboxImage.src = src;
+      lightboxImage.alt = alt;
+      lightboxOverlay.classList.add('active');
+      lightboxOverlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      lightboxOverlay.classList.remove('active');
+      lightboxOverlay.setAttribute('aria-hidden', 'true');
+      lightboxImage.src = '';
+      document.body.style.overflow = '';
+    }
+
+    photoPreviews.forEach((photo) => {
+      photo.addEventListener('click', () => {
+        openLightbox(photo.src, photo.alt || 'Photography image');
+      });
+    });
+
+    lightboxOverlay.addEventListener('click', (event) => {
+      if (event.target === lightboxOverlay || event.target === lightboxClose) {
+        closeLightbox();
+      }
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && lightboxOverlay.classList.contains('active')) {
+        closeLightbox();
+      }
+    });
+  </script>
+</html>
