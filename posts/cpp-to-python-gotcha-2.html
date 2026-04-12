@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>C++ to Python Gotcha 2 | SAMBHAV VERMAN</title>
+  <style>
+    :root {
+      --bg: #f5f5f7;
+      --surface: #ffffff;
+      --surface-soft: #f3f4f6;
+      --text: #111827;
+      --muted: #4b5563;
+      --accent: #111827;
+      --accent-strong: #000000;
+      --border: rgba(17, 24, 39, 0.12);
+      --code-bg: #101828;
+      --code-text: #e5e7eb;
+      --radius: 24px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(180deg, #fdfdfd 0%, var(--bg) 28%, #eef2f7 100%);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    code,
+    pre {
+      font-family: "SFMono-Regular", SFMono-Regular, ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(14px);
+      background: rgba(255, 255, 255, 0.92);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 22px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+      font-size: 0.95rem;
+      font-weight: 700;
+      padding: 8px 14px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.85);
+    }
+
+    nav a:hover,
+    nav a:focus-visible,
+    .back-link:hover,
+    .back-link:focus-visible {
+      color: var(--text);
+      background: var(--surface-soft);
+      border-color: rgba(17, 24, 39, 0.22);
+    }
+
+    .page {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 40px 24px 96px;
+      display: grid;
+      gap: 28px;
+    }
+
+    .hero,
+    .article {
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid var(--border);
+      border-radius: 32px;
+      box-shadow: 0 28px 80px rgba(17, 24, 39, 0.08);
+      backdrop-filter: blur(16px);
+    }
+
+    .hero {
+      padding: 40px;
+      display: grid;
+      gap: 24px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      text-decoration: none;
+      font-weight: 700;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.92);
+      transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--accent);
+      font-size: 0.95rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 36px;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.55;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 760px;
+      font-size: clamp(2.4rem, 4.5vw, 4.1rem);
+      line-height: 1.03;
+    }
+
+    .lede {
+      margin: 0;
+      max-width: 700px;
+      font-size: 1.08rem;
+      color: var(--muted);
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .article {
+      padding: 40px;
+    }
+
+    .article h2 {
+      margin: 44px 0 16px;
+      font-size: 1.7rem;
+      line-height: 1.2;
+    }
+
+    .article h2:first-child {
+      margin-top: 0;
+    }
+
+    .article p,
+    .article li {
+      color: #1f2937;
+      font-size: 1.04rem;
+    }
+
+    .article strong {
+      color: #030712;
+    }
+
+    .article ul,
+    .article ol {
+      margin: 18px 0;
+      padding-left: 22px;
+    }
+
+    .article li + li {
+      margin-top: 10px;
+    }
+
+    .article hr {
+      margin: 40px 0;
+      border: 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .article :not(pre) > code {
+      padding: 0.18rem 0.42rem;
+      border-radius: 8px;
+      background: #e5e7eb;
+      color: #111827;
+      font-size: 0.95em;
+    }
+
+    pre {
+      margin: 22px 0;
+      padding: 20px;
+      overflow-x: auto;
+      border-radius: 20px;
+      background: var(--code-bg);
+      color: var(--code-text);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    }
+
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+    }
+
+    .callout {
+      margin: 28px 0;
+      padding: 20px 22px;
+      border-radius: 20px;
+      border: 1px solid rgba(17, 24, 39, 0.1);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(243, 244, 246, 0.92));
+    }
+
+    .callout p {
+      margin: 0;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.94rem;
+      padding: 0 24px 42px;
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        padding: 24px 16px 72px;
+      }
+
+      .hero,
+      .article {
+        padding: 24px;
+        border-radius: 24px;
+      }
+
+      .topbar {
+        padding: 18px 16px;
+      }
+
+      nav {
+        gap: 12px;
+      }
+
+      nav a {
+        font-size: 0.88rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="topbar">
+      <a class="brand" href="../index.html">SAMBHAV VERMAN</a>
+      <nav>
+        <a href="../index.html#about">About Me</a>
+        <a href="../blog.html">Blog</a>
+        <a href="../photography.html">Photography</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="hero">
+      <a class="back-link" href="../blog.html">← Back to blog</a>
+      <span class="eyebrow">C++ to Python Series</span>
+      <h1>C++ to Python Gotcha 2: Same OOP Words, Different Class Model</h1>
+      <p class="lede">C++ and Python both support object-oriented programming, but they do not mean the same thing by a class. The syntax can look familiar while the runtime behavior is fundamentally different.</p>
+      <div class="meta">
+        <span>April 12, 2026</span>
+        <span>•</span>
+        <span>6 min read</span>
+        <span>•</span>
+        <span>C++ / Python</span>
+      </div>
+    </section>
+
+    <article class="article">
+      <h2>The Confusion</h2>
+      <p>A lot of OOP vocabulary carries over cleanly from C++ to Python: classes, objects, methods, inheritance, encapsulation. That makes it tempting to assume the underlying model is basically the same.</p>
+      <p>It is not.</p>
+      <p>The important clarification is this: <strong>both languages support object-oriented programming, but the object model behind classes is different.</strong></p>
+
+      <div class="callout">
+        <p><strong>Short version:</strong> in C++, a class mostly defines per-object structure and behavior. In Python, a class is also a runtime object with its own attributes, lookup rules, and dynamic behavior.</p>
+      </div>
+
+      <h2>What C++ Developers Usually Expect</h2>
+      <p>In C++, when you write a member on a class, you are usually defining part of the layout of each object:</p>
+      <pre><code class="language-cpp">class Car {
+public:
+    std::string model;
+    int year;
+};
+
+Car a;
+Car b;
+</code></pre>
+      <p>Each object has its own <code>model</code> and <code>year</code>. If state is meant to be shared, you must say so explicitly with <code>static</code>.</p>
+      <pre><code class="language-cpp">class Car {
+public:
+    static int number_of_cars;
+};
+</code></pre>
+      <p>That makes the default mental model very clear: member data is per-object, shared data is special.</p>
+
+      <h2>What Python Actually Does</h2>
+      <p>In Python, a name assigned in the class body is a class attribute:</p>
+      <pre><code class="language-python">class Car:
+    wheels = 4
+    features = []
+</code></pre>
+      <p>Those values live on the class object itself. Instances look them up when they do not already have their own attribute with the same name.</p>
+      <pre><code class="language-python">a = Car()
+b = Car()
+
+print(a.wheels)  # 4
+print(b.wheels)  # 4
+</code></pre>
+      <p>That means the line looks class-shaped, but it does not mean the same thing it would in C++.</p>
+
+      <h2>Why the Shared-State Bug Happens</h2>
+      <p>The classic bug from the first post in this series comes directly from that model:</p>
+      <pre><code class="language-python">class Car:
+    features = []
+
+a = Car()
+b = Car()
+
+a.features.append("turbo")
+print(b.features)  # ["turbo"]
+</code></pre>
+      <p>A C++ reader sees something that looks like instance state. Python sees a class attribute referring to one shared list.</p>
+      <p>The mistake is not about OOP in general. The mistake is assuming that a Python class body declares instance storage the way a C++ class does.</p>
+
+      <h2>Methods Also Behave Differently</h2>
+      <p>Even methods are not quite the same concept.</p>
+      <p>In C++, a method is a member function with rules around overloading, <code>virtual</code>, <code>const</code>, and compile-time type checking.</p>
+      <p>In Python, a method is a function stored on the class that becomes a bound method when you access it through an instance.</p>
+      <pre><code class="language-python">class Car:
+    def describe(self):
+        return "car"
+
+a = Car()
+print(a.describe())
+</code></pre>
+      <p>That flexibility is powerful, but it comes from a dynamic lookup model rather than fixed compile-time object layout.</p>
+
+      <h2>Inheritance Feels Similar Until It Does Not</h2>
+      <p>Both languages support inheritance, but the mechanics differ.</p>
+      <ol>
+        <li>In C++, inheritance is strongly tied to object layout, vtables, and compile-time rules.</li>
+        <li>In Python, inheritance follows dynamic attribute lookup and method resolution order.</li>
+        <li>Multiple inheritance is much more common in Python, which also means MRO becomes part of everyday design.</li>
+      </ol>
+      <p>So yes, the OOP vocabulary matches, but the implementation model underneath it does not.</p>
+
+      <h2>The Better Mental Model</h2>
+      <p>If you are coming from C++, this framing is safer:</p>
+      <ol>
+        <li><strong>C++ class:</strong> mostly a blueprint for per-object structure plus methods.</li>
+        <li><strong>Python class:</strong> a runtime object that can hold shared attributes, methods, and metadata, while instances get their own attributes when assigned.</li>
+      </ol>
+      <p>That small shift in mental model explains a lot of Python behavior at once.</p>
+
+      <h2>How to Write Python Without Fighting It</h2>
+      <p>If you want per-instance state, initialize it in <code>__init__</code> or with a dataclass.</p>
+      <pre><code class="language-python">from dataclasses import dataclass, field
+
+@dataclass
+class Car:
+    model: str
+    features: list[str] = field(default_factory=list)
+</code></pre>
+      <p>If you want shared state, keep it on the class deliberately and name it as such.</p>
+      <pre><code class="language-python">class Car:
+    supported_engines = ["V6", "V8", "EV"]
+</code></pre>
+      <p>The key is not to write Python as if the class body were declaring instance fields in the C++ sense.</p>
+
+      <h2>Key Takeaways</h2>
+      <ol>
+        <li><strong>OOP concepts transfer, but class semantics do not transfer unchanged.</strong></li>
+        <li><strong>C++ defaults to per-object member state.</strong></li>
+        <li><strong>Python class-body assignments create class attributes, not instance fields.</strong></li>
+        <li><strong>Many Python surprises disappear once you remember that classes are runtime objects.</strong></li>
+      </ol>
+    </article>
+  </main>
+
+  <footer>
+    © 2026 Sambhav. Writing about software design, development, and scalable systems.
+  </footer>
+</body>
+</html>
