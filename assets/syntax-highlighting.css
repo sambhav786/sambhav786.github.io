@@ -1,0 +1,73 @@
+/* Shared syntax highlighting theme for blog post code blocks */
+code,
+pre {
+  font-variant-ligatures: none;
+}
+
+pre[class*="language-"] {
+  margin: 22px 0;
+  padding: 20px;
+  border-radius: 20px;
+  background: var(--code-bg);
+  color: var(--code-text);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  text-shadow: none;
+}
+
+code[class*="language-"],
+pre[class*="language-"] {
+  color: var(--code-text);
+  text-shadow: none;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: #7c8aa5;
+}
+
+.token.punctuation,
+.token.operator {
+  color: #9ca3af;
+  background: transparent;
+}
+
+.token.entity,
+.token.url {
+  background: transparent;
+}
+
+.token.keyword,
+.token.boolean,
+.token.important {
+  color: #f58ea8;
+}
+
+.token.function,
+.token.class-name,
+.token.method {
+  color: #8bd5ff;
+}
+
+.token.string,
+.token.char,
+.token.attr-value,
+.token.inserted {
+  color: #8ad5a4;
+}
+
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+  color: #f7c779;
+}
+
+.token.property,
+.token.parameter,
+.token.variable,
+.token.attr-name {
+  color: #c4b5fd;
+}
