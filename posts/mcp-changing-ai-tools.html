@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How MCP is Changing the Way We Communicate with AI Tools | SAMBHAV VERMAN</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css" />
+  <link rel="stylesheet" href="../assets/syntax-highlighting.css" />
+  <style>
+    :root {
+      --bg: #f5f5f7;
+      --surface: #ffffff;
+      --surface-soft: #f3f4f6;
+      --text: #111827;
+      --muted: #4b5563;
+      --accent: #111827;
+      --accent-strong: #000000;
+      --border: rgba(17, 24, 39, 0.12);
+      --code-bg: #101828;
+      --code-text: #e5e7eb;
+      --radius: 24px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(180deg, #fdfdfd 0%, var(--bg) 28%, #eef2f7 100%);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    code,
+    pre {
+      font-family: "SFMono-Regular", SFMono-Regular, ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(14px);
+      background: rgba(255, 255, 255, 0.92);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 22px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+      font-size: 0.95rem;
+      font-weight: 700;
+      padding: 8px 14px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.85);
+    }
+
+    nav a:hover,
+    nav a:focus-visible,
+    .back-link:hover,
+    .back-link:focus-visible {
+      color: var(--text);
+      background: var(--surface-soft);
+      border-color: rgba(17, 24, 39, 0.22);
+    }
+
+    .page {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 40px 24px 96px;
+      display: grid;
+      gap: 28px;
+    }
+
+    .hero,
+    .article {
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid var(--border);
+      border-radius: 32px;
+      box-shadow: 0 28px 80px rgba(17, 24, 39, 0.08);
+      backdrop-filter: blur(16px);
+    }
+
+    .hero {
+      padding: 40px;
+      display: grid;
+      gap: 24px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      text-decoration: none;
+      font-weight: 700;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.92);
+      transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--accent);
+      font-size: 0.95rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 36px;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.55;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 760px;
+      font-size: clamp(2.4rem, 4.5vw, 4.1rem);
+      line-height: 1.03;
+    }
+
+    .lede {
+      margin: 0;
+      max-width: 700px;
+      font-size: 1.08rem;
+      color: var(--muted);
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .article {
+      padding: 40px;
+    }
+
+    .article h2 {
+      margin: 44px 0 16px;
+      font-size: 1.7rem;
+      line-height: 1.2;
+    }
+
+    .article h2:first-child {
+      margin-top: 0;
+    }
+
+    .article h3 {
+      margin: 28px 0 14px;
+      font-size: 1.3rem;
+      line-height: 1.2;
+    }
+
+    .article p,
+    .article li {
+      color: #1f2937;
+      font-size: 1.04rem;
+    }
+
+    .article strong {
+      color: #030712;
+    }
+
+    .article ul,
+    .article ol {
+      margin: 18px 0;
+      padding-left: 22px;
+    }
+
+    .article li + li {
+      margin-top: 10px;
+    }
+
+    .article hr {
+      margin: 40px 0;
+      border: 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .article :not(pre) > code {
+      padding: 0.18rem 0.42rem;
+      border-radius: 8px;
+      background: #e5e7eb;
+      color: #111827;
+      font-size: 0.95em;
+    }
+
+    pre {
+      margin: 22px 0;
+      padding: 20px;
+      overflow-x: auto;
+      border-radius: 20px;
+      background: var(--code-bg);
+      color: var(--code-text);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    }
+
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+    }
+
+    .diagram {
+      margin: 32px 0;
+      display: flex;
+      justify-content: center;
+      overflow-x: auto;
+    }
+
+    .diagram svg {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .callout {
+      margin: 28px 0;
+      padding: 20px 22px;
+      border-radius: 20px;
+      border: 1px solid rgba(17, 24, 39, 0.1);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(243, 244, 246, 0.92));
+    }
+
+    .callout p {
+      margin: 0;
+      color: #1f2937;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.94rem;
+      padding: 0 24px 42px;
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        padding: 24px 16px 72px;
+      }
+
+      .hero,
+      .article {
+        padding: 24px;
+        border-radius: 24px;
+      }
+
+      .topbar {
+        padding: 18px 16px;
+      }
+
+      nav {
+        gap: 12px;
+      }
+
+      nav a {
+        font-size: 0.88rem;
+      }
+
+      .article h2 {
+        font-size: 1.4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="topbar">
+      <a class="brand" href="../index.html">SAMBHAV VERMAN</a>
+      <nav>
+        <a href="../index.html#about">About Me</a>
+        <a href="../blog.html">Blog</a>
+        <a href="../photography.html">Photography</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="hero">
+      <a class="back-link" href="../blog.html">← Back to blog</a>
+      <span class="eyebrow">AI Infrastructure</span>
+      <h1>How MCP is Changing the Way We Communicate with AI Tools</h1>
+      <p class="lede">The Model Context Protocol represents a fundamental shift in how AI tools, applications, and data sources communicate. This deep dive explores its architecture, transformative use cases, and why it matters for the future of AI development.</p>
+      <div class="meta">
+        <span>May 3, 2026</span>
+        <span>•</span>
+        <span>12 min read</span>
+        <span>•</span>
+        <span>AI / Infrastructure</span>
+      </div>
+    </section>
+
+    <article class="article">
+      <h2>What is MCP?</h2>
+      <p>The Model Context Protocol (MCP) is an open standard developed by Anthropic that provides a unified, language-agnostic interface for AI models to interact with external tools, data sources, and systems. Rather than building custom integrations for every use case, MCP allows you to create standardized clients and servers that speak a common protocol.</p>
+      <p>Think of MCP as the HTTP of AI communication. Just as HTTP standardized how web applications talk to servers, MCP standardizes how AI models access external resources and tools.</p>
+
+      <h2>The Problem MCP Solves</h2>
+      <p>Before MCP, connecting AI models to external resources involved:</p>
+      <ul>
+        <li>Writing custom integration code for each tool or data source</li>
+        <li>Managing multiple authentication schemes</li>
+        <li>Handling context management and request/response serialization manually</li>
+        <li>Duplicating logic across different AI applications</li>
+        <li>Creating brittle connections that break when either side changes</li>
+      </ul>
+      <p>This fragmentation meant teams spent more time on plumbing than on solving actual problems. MCP centralizes and standardizes this plumbing.</p>
+
+      <h2>Architecture: How MCP Works</h2>
+      <p>MCP operates on a client-server model where:</p>
+      <ul>
+        <li><strong>Client</strong>: The AI model or application that needs access to resources</li>
+        <li><strong>Server</strong>: Exposes tools, resources, or data that the client can invoke</li>
+      </ul>
+
+      <div class="diagram">
+        <svg width="100%" viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg">
+          <!-- Title -->
+          <text x="400" y="25" font-size="18" font-weight="bold" text-anchor="middle" fill="#111827">
+            MCP Architecture Overview
+          </text>
+
+          <!-- Client Box -->
+          <rect x="50" y="80" width="200" height="120" fill="#f3f4f6" stroke="#111827" stroke-width="2" rx="8"/>
+          <text x="150" y="110" font-size="14" font-weight="bold" text-anchor="middle" fill="#111827">
+            MCP Client
+          </text>
+          <text x="150" y="135" font-size="12" text-anchor="middle" fill="#4b5563">
+            (Claude, Application)
+          </text>
+          <text x="150" y="160" font-size="11" text-anchor="middle" fill="#4b5563">
+            Sends requests via
+          </text>
+          <text x="150" y="180" font-size="11" text-anchor="middle" fill="#4b5563">
+            JSON-RPC over stdio
+          </text>
+
+          <!-- Server Box -->
+          <rect x="550" y="80" width="200" height="120" fill="#e5e7eb" stroke="#111827" stroke-width="2" rx="8"/>
+          <text x="650" y="110" font-size="14" font-weight="bold" text-anchor="middle" fill="#111827">
+            MCP Server
+          </text>
+          <text x="650" y="135" font-size="12" text-anchor="middle" fill="#4b5563">
+            (Custom Implementation)
+          </text>
+          <text x="650" y="160" font-size="11" text-anchor="middle" fill="#4b5563">
+            Exposes tools,
+          </text>
+          <text x="650" y="180" font-size="11" text-anchor="middle" fill="#4b5563">
+            resources, or prompts
+          </text>
+
+          <!-- Arrow bidirectional -->
+          <defs>
+            <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+              <polygon points="0 0, 10 3, 0 6" fill="#111827"/>
+            </marker>
+          </defs>
+          <line x1="250" y1="140" x2="550" y2="140" stroke="#111827" stroke-width="2" marker-end="url(#arrowhead)"/>
+          <line x1="550" y1="130" x2="250" y2="130" stroke="#111827" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+          <text x="400" y="125" font-size="11" text-anchor="middle" fill="#4b5563" font-weight="600">
+            JSON-RPC Messages
+          </text>
+
+          <!-- Data Sources -->
+          <rect x="550" y="230" width="80" height="50" fill="#f3f4f6" stroke="#111827" stroke-width="1" rx="4"/>
+          <text x="590" y="250" font-size="11" text-anchor="middle" fill="#111827" font-weight="600">Database</text>
+          <line x="590" y="230" x2="650" y2="200" stroke="#999" stroke-width="1" stroke-dasharray="3,3"/>
+
+          <rect x="670" y="230" width="80" height="50" fill="#f3f4f6" stroke="#111827" stroke-width="1" rx="4"/>
+          <text x="710" y="250" font-size="11" text-anchor="middle" fill="#111827" font-weight="600">APIs</text>
+          <line x="710" y="230" x2="650" y2="200" stroke="#999" stroke-width="1" stroke-dasharray="3,3"/>
+
+          <text x="710" y="290" font-size="10" text-anchor="middle" fill="#4b5563">
+            Server connects to
+          </text>
+          <text x="710" y="305" font-size="10" text-anchor="middle" fill="#4b5563">
+            various resources
+          </text>
+        </svg>
+      </div>
+
+      <h3>Key Components</h3>
+      <p><strong>Tools</strong>: Functions that the server exposes for the client to call. For example, "query database", "send email", or "run analysis".</p>
+      <p><strong>Resources</strong>: Data or file access that the server provides. A resource could be a file, database record, or API endpoint.</p>
+      <p><strong>Prompts</strong>: Template prompts that the server can serve to the client. Useful for standardizing prompt patterns across your organization.</p>
+      <p><strong>Transport</strong>: MCP uses JSON-RPC over stdio by default, but can also use HTTP or WebSocket.</p>
+
+      <div class="callout">
+        <p><strong>Key insight:</strong> MCP abstracts away the transport layer and serialization. Whether your server is local or remote, written in Python or Node.js, the client interface remains identical.</p>
+      </div>
+
+      <h2>Deep Dive: MCP in Action</h2>
+      <p>Let's walk through a concrete example: connecting Claude to a company database via MCP.</p>
+
+      <h3>1. Define the Server</h3>
+      <p>First, you create an MCP server in your language of choice. Here's a Python example that exposes database query tools:</p>
+      <pre><code class="language-python">from mcp.server import Server, tool
+import sqlite3
+
+app = Server("database-server")
+
+@app.tool()
+def query_customers(limit: int = 10):
+    """Query the customers table."""
+    conn = sqlite3.connect("company.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM customers LIMIT ?", (limit,))
+    rows = cursor.fetchall()
+    conn.close()
+    return rows
+
+@app.tool()
+def get_customer_by_id(customer_id: int):
+    """Fetch a specific customer by ID."""
+    conn = sqlite3.connect("company.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM customers WHERE id = ?", (customer_id,))
+    row = cursor.fetchone()
+    conn.close()
+    return row
+
+if __name__ == "__main__":
+    app.run()
+</code></pre>
+
+      <h3>2. Configure the Client (Claude)</h3>
+      <p>You configure Claude or your application to use this MCP server via a configuration file:</p>
+      <pre><code class="language-json">{
+  "mcpServers": {
+    "database": {
+      "command": "python",
+      "args": ["database_server.py"],
+      "transport": "stdio"
+    }
+  }
+}
+</code></pre>
+
+      <h3>3. Claude Now Has Access</h3>
+      <p>Once configured, Claude can now invoke these tools directly:</p>
+      <pre><code class="language-text">User: "Show me our top 5 customers by ID"
+
+Claude calls: query_customers(limit: 5)
+Database Server returns: [
+  {id: 1, name: "Acme Corp", revenue: 500000},
+  {id: 2, name: "TechStart Inc", revenue: 350000},
+  ...
+]
+
+Claude: "Here are your top 5 customers by ID: [renders results]"
+</code></pre>
+
+      <div class="diagram">
+        <svg width="100%" viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg">
+          <!-- Title -->
+          <text x="450" y="25" font-size="18" font-weight="bold" text-anchor="middle" fill="#111827">
+            MCP Request/Response Flow
+          </text>
+
+          <!-- Define arrow marker -->
+          <defs>
+            <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+              <polygon points="0 0, 10 3, 0 6" fill="#111827"/>
+            </marker>
+          </defs>
+
+          <!-- Row 1: Steps 1, 2, 3 -->
+          <!-- Step 1: Client -->
+          <circle cx="100" cy="100" r="30" fill="#e5e7eb" stroke="#111827" stroke-width="2"/>
+          <text x="100" y="107" font-size="14" font-weight="bold" text-anchor="middle" fill="#111827">1</text>
+          <text x="100" y="155" font-size="11" text-anchor="middle" fill="#111827" font-weight="600">Client prepares</text>
+          <text x="100" y="170" font-size="11" text-anchor="middle" fill="#111827">JSON-RPC request</text>
+
+          <!-- Arrow 1→2 -->
+          <line x1="130" y1="100" x2="210" y2="100" stroke="#111827" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+          <!-- Step 2: Transport -->
+          <circle cx="260" cy="100" r="30" fill="#f3f4f6" stroke="#111827" stroke-width="2"/>
+          <text x="260" y="107" font-size="14" font-weight="bold" text-anchor="middle" fill="#111827">2</text>
+          <text x="260" y="155" font-size="11" text-anchor="middle" fill="#111827" font-weight="600">Message sent via</text>
+          <text x="260" y="170" font-size="11" text-anchor="middle" fill="#111827">stdio/HTTP/WS</text>
+
+          <!-- Arrow 2→3 -->
+          <line x1="290" y1="100" x2="370" y2="100" stroke="#111827" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+          <!-- Step 3: Server -->
+          <circle cx="420" cy="100" r="30" fill="#e5e7eb" stroke="#111827" stroke-width="2"/>
+          <text x="420" y="107" font-size="14" font-weight="bold" text-anchor="middle" fill="#111827">3</text>
+          <text x="420" y="155" font-size="11" text-anchor="middle" fill="#111827" font-weight="600">Server receives</text>
+          <text x="420" y="170" font-size="11" text-anchor="middle" fill="#111827">and processes</text>
+
+          <!-- Arrow 3→4 -->
+          <line x1="420" y1="130" x2="420" y2="210" stroke="#111827" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+          <!-- Row 2: Step 4 -->
+          <!-- Step 4: Tool execution -->
+          <circle cx="420" cy="260" r="30" fill="#f3f4f6" stroke="#111827" stroke-width="2"/>
+          <text x="420" y="267" font-size="14" font-weight="bold" text-anchor="middle" fill="#111827">4</text>
+          <text x="420" y="305" font-size="11" text-anchor="middle" fill="#111827" font-weight="600">Executes tool</text>
+          <text x="420" y="320" font-size="11" text-anchor="middle" fill="#111827">(query, API call)</text>
+
+          <!-- Arrow 4→5 -->
+          <line x1="420" y1="290" x2="420" y2="370" stroke="#111827" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+          <!-- Row 3: Step 5 -->
+          <!-- Step 5: Response -->
+          <circle cx="420" cy="420" r="30" fill="#e5e7eb" stroke="#111827" stroke-width="2"/>
+          <text x="420" y="427" font-size="14" font-weight="bold" text-anchor="middle" fill="#111827">5</text>
+          <text x="420" y="460" font-size="11" text-anchor="middle" fill="#111827" font-weight="600">Server returns</text>
+          <text x="420" y="475" font-size="11" text-anchor="middle" fill="#111827">JSON-RPC response</text>
+
+          <!-- Return path: Response goes back to client -->
+          <!-- Arrow from step 5 back left -->
+          <line x1="390" y1="420" x2="130" y2="420" stroke="#4b5563" stroke-width="2" stroke-dasharray="4,2" marker-end="url(#arrowhead)"/>
+
+          <!-- Step 6: Client processes (on left side) -->
+          <circle cx="100" cy="420" r="30" fill="#f3f4f6" stroke="#111827" stroke-width="2"/>
+          <text x="100" y="427" font-size="14" font-weight="bold" text-anchor="middle" fill="#111827">6</text>
+
+          <!-- Annotations -->
+          <text x="700" y="120" font-size="11" fill="#4b5563" font-weight="600">Forward request:</text>
+          <text x="700" y="140" font-size="10" fill="#4b5563">Client → Server</text>
+
+          <text x="700" y="260" font-size="11" fill="#4b5563" font-weight="600">Execution at server:</text>
+          <text x="700" y="280" font-size="10" fill="#4b5563">Tools & resources</text>
+
+          <text x="700" y="400" font-size="11" fill="#4b5563" font-weight="600">Response back:</text>
+          <text x="700" y="420" font-size="10" fill="#4b5563">Server → Client</text>
+          <text x="700" y="440" font-size="10" fill="#4b5563">(dashed line)</text>
+        </svg>
+      </div>
+
+      <h2>Use Cases: Where MCP Excels</h2>
+
+      <h3>1. Enterprise Data Access</h3>
+      <p>Connect AI models to internal databases, data warehouses, and APIs without exposing sensitive infrastructure. MCP servers can enforce authentication, rate limiting, and data filtering at the server layer.</p>
+      <p><strong>Example:</strong> An AI assistant that queries your CRM, ERP, and analytics platforms to answer business questions in real-time.</p>
+
+      <h3>2. Agentic Systems</h3>
+      <p>Build AI agents that interact with tools in a standardized way. MCP servers can expose complex tools like "deploy infrastructure", "manage user accounts", or "analyze logs".</p>
+      <p><strong>Example:</strong> A DevOps agent that can provision resources, check system health, and execute deployment pipelines through MCP-exposed tools.</p>
+
+      <h3>3. Knowledge Base Integration</h3>
+      <p>Serve custom prompts and resources to AI models. Instead of hard-coding knowledge into prompts, define it once and serve it dynamically via MCP.</p>
+      <p><strong>Example:</strong> A documentation server that serves API docs, code examples, and best practices to Claude on demand.</p>
+
+      <h3>4. Multi-Tool Orchestration</h3>
+      <p>Use MCP to connect AI models to multiple specialized tools and services. The client only needs to know about the MCP protocol, not the details of each underlying tool.</p>
+      <p><strong>Example:</strong> An analytics AI that needs to fetch data, run models, generate reports, and send notifications—all through separate MCP servers.</p>
+
+      <h3>5. Custom AI Applications</h3>
+      <p>Build applications that use Claude or other models with your own backend services. MCP servers encapsulate your business logic and data access.</p>
+      <p><strong>Example:</strong> A customer service chatbot that can access customer history, ticket systems, billing info, and product databases via MCP servers.</p>
+
+      <h2>Benefits: Why MCP Matters</h2>
+
+      <h3>1. Standardization</h3>
+      <p>Stop writing custom integrations. MCP is language-agnostic and transport-agnostic, so you write once and it works with any MCP-compatible client.</p>
+
+      <h3>2. Scalability</h3>
+      <p>MCP servers can be deployed independently and scaled separately from your AI application. As tool demand grows, deploy more server instances.</p>
+
+      <h3>3. Security & Isolation</h3>
+      <p>Keep sensitive operations behind server-side logic. MCP servers authenticate and authorize access, so your AI model never directly accesses sensitive data.</p>
+
+      <div class="diagram">
+        <svg width="100%" viewBox="0 0 800 250" xmlns="http://www.w3.org/2000/svg">
+          <!-- Title -->
+          <text x="400" y="25" font-size="18" font-weight="bold" text-anchor="middle" fill="#111827">
+            Benefits of MCP
+          </text>
+
+          <!-- Benefit 1 -->
+          <rect x="30" y="60" width="220" height="160" fill="#f3f4f6" stroke="#111827" stroke-width="1" rx="8"/>
+          <text x="140" y="90" font-size="13" font-weight="bold" text-anchor="middle" fill="#111827">
+            Standardization
+          </text>
+          <text x="140" y="115" font-size="11" text-anchor="middle" fill="#4b5563">
+            One protocol for all
+          </text>
+          <text x="140" y="130" font-size="11" text-anchor="middle" fill="#4b5563">
+            tool integrations
+          </text>
+          <text x="140" y="155" font-size="11" text-anchor="middle" fill="#4b5563">
+            Language-agnostic
+          </text>
+          <text x="140" y="170" font-size="11" text-anchor="middle" fill="#4b5563">
+            implementation
+          </text>
+          <text x="140" y="185" font-size="11" text-anchor="middle" fill="#4b5563">
+            Reduces technical debt
+          </text>
+          <text x="140" y="205" font-size="11" text-anchor="middle" fill="#4b5563">
+            and code duplication
+          </text>
+
+          <!-- Benefit 2 -->
+          <rect x="290" y="60" width="220" height="160" fill="#e5e7eb" stroke="#111827" stroke-width="1" rx="8"/>
+          <text x="400" y="90" font-size="13" font-weight="bold" text-anchor="middle" fill="#111827">
+            Security
+          </text>
+          <text x="400" y="115" font-size="11" text-anchor="middle" fill="#4b5563">
+            Isolate sensitive
+          </text>
+          <text x="400" y="130" font-size="11" text-anchor="middle" fill="#4b5563">
+            operations
+          </text>
+          <text x="400" y="155" font-size="11" text-anchor="middle" fill="#4b5563">
+            Enforce auth &amp;
+          </text>
+          <text x="400" y="170" font-size="11" text-anchor="middle" fill="#4b5563">
+            rate limiting
+          </text>
+          <text x="400" y="190" font-size="11" text-anchor="middle" fill="#4b5563">
+            No direct DB access
+          </text>
+          <text x="400" y="205" font-size="11" text-anchor="middle" fill="#4b5563">
+            for AI models
+          </text>
+
+          <!-- Benefit 3 -->
+          <rect x="550" y="60" width="220" height="160" fill="#f3f4f6" stroke="#111827" stroke-width="1" rx="8"/>
+          <text x="660" y="90" font-size="13" font-weight="bold" text-anchor="middle" fill="#111827">
+            Flexibility
+          </text>
+          <text x="660" y="115" font-size="11" text-anchor="middle" fill="#4b5563">
+            Mix and match
+          </text>
+          <text x="660" y="130" font-size="11" text-anchor="middle" fill="#4b5563">
+            servers &amp; clients
+          </text>
+          <text x="660" y="155" font-size="11" text-anchor="middle" fill="#4b5563">
+            Deploy independently
+          </text>
+          <text x="660" y="170" font-size="11" text-anchor="middle" fill="#4b5563">
+            Change back-end
+          </text>
+          <text x="660" y="185" font-size="11" text-anchor="middle" fill="#4b5563">
+            without touching
+          </text>
+          <text x="660" y="205" font-size="11" text-anchor="middle" fill="#4b5563">
+            client code
+          </text>
+        </svg>
+      </div>
+
+      <h3>4. Maintainability</h3>
+      <p>Separate concerns clearly. Your MCP server handles business logic and data access; your application handles UI and user interaction. Changes to one don't break the other.</p>
+
+      <h3>5. Reusability</h3>
+      <p>A well-designed MCP server can be used by multiple clients—Claude, custom applications, other AI models, even human developers testing tools.</p>
+
+      <h3>6. Future-Proofing</h3>
+      <p>As AI models and capabilities evolve, your MCP infrastructure remains stable. Update your server without updating the client, and vice versa.</p>
+
+      <h2>Real-World Scenario: Building an AI-Powered Analytics Assistant</h2>
+      <p>Let's imagine you're building an internal AI assistant that helps your analytics team. Here's how MCP makes this tractable:</p>
+
+      <h3>Architecture</h3>
+      <ul>
+        <li><strong>Data Server:</strong> Exposes tools to query your data warehouse (BigQuery, Snowflake, etc.)</li>
+        <li><strong>Compute Server:</strong> Runs SQL, creates visualizations, exports reports</li>
+        <li><strong>Documentation Server:</strong> Serves metric definitions, table schemas, and analysis best practices</li>
+        <li><strong>Client:</strong> Claude or your custom application using all three servers</li>
+      </ul>
+
+      <h3>User Interaction Example</h3>
+      <pre><code class="language-text">Analyst: "What's the trend in our conversion rate over the last quarter?"
+
+Claude orchestrates:
+1. Calls data-server.get_conversion_metrics(date_range: "Q1 2026")
+2. Calls compute-server.analyze_trend(metric: conversion_rate, data: [...])
+3. Calls compute-server.generate_chart(data: [...])
+4. Returns: "Conversion rate increased 5% QoQ. Here's the trend chart."
+
+The analyst gets insights in seconds instead of writing SQL queries.
+</code></pre>
+
+      <h3>Benefits in This Scenario</h3>
+      <ul>
+        <li>Each server is maintained by the team responsible for that area (data, analytics, documentation)</li>
+        <li>The documentation server keeps metric definitions in sync with actual compute logic</li>
+        <li>Rate limiting on the data server protects your data warehouse from expensive queries</li>
+        <li>You can swap out Claude for another model without rewriting any server code</li>
+        <li>New analysts can be onboarded faster because Claude can teach them the proper way to ask questions</li>
+      </ul>
+
+      <h2>Getting Started with MCP</h2>
+      <p>If you're interested in building with MCP:</p>
+      <ul>
+        <li><strong>Read the spec:</strong> The MCP specification is open and available on Anthropic's GitHub</li>
+        <li><strong>Use existing servers:</strong> The community has created MCP servers for common use cases (databases, file systems, APIs)</li>
+        <li><strong>Build your own:</strong> Create custom servers for your specific needs using official SDKs (Python, Node.js)</li>
+        <li><strong>Integrate with Claude:</strong> Use Claude Desktop or the Anthropic API with MCP support</li>
+      </ul>
+
+      <h2>The Future of AI Infrastructure</h2>
+      <p>MCP represents a shift from monolithic AI applications to modular, composable systems. Instead of building one large application, you build small, focused servers that do one thing well and communicate via a standard protocol.</p>
+      <p>This mirrors how the web evolved: from centralized systems to modular services connected by HTTP. MCP is doing the same for AI tools and models.</p>
+      <p>As AI becomes more pervasive, standardized communication protocols like MCP will be critical for interoperability and maintainability. Organizations that invest in MCP infrastructure now will have a significant advantage in building scalable, secure AI systems.</p>
+
+      <div class="callout">
+        <p><strong>Bottom line:</strong> MCP is not just a technical protocol—it's a philosophy shift toward standardization, modularity, and security in AI infrastructure. If you're building anything beyond toy examples, understanding MCP should be on your roadmap.</p>
+      </div>
+
+      <h2>Critical Caution: AI Tools Need Guardrails</h2>
+      <p>The power of MCP comes with significant responsibility. In early 2025, a Claude-powered AI coding agent accidentally deleted an entire company database in 9 seconds—including all backups. The agent was given access to production systems via tools and, when asked to clean up, interpreted the request too broadly and executed destructive commands.</p>
+
+      <p>This incident underscores a fundamental truth: <strong>AI models are not always aware of the consequences of their actions, and giving them tool access to critical systems without proper safeguards is dangerous.</strong></p>
+
+      <h3>Essential Safety Practices</h3>
+      <ul>
+        <li><strong>Separate Read and Write Access:</strong> Never expose destructive operations through the same interface as read operations. Create distinct MCP servers with different permission levels.</li>
+        <li><strong>Require Explicit Confirmation:</strong> For any operation that modifies data, require human approval. MCP can return a "confirmation needed" response that forces the client to ask the user before proceeding.</li>
+        <li><strong>Use Database Transactions:</strong> Wrap destructive operations in transactions with explicit commit steps. Don't auto-commit; require deliberate confirmation.</li>
+        <li><strong>Implement Fine-Grained Access Control:</strong> Don't give AI tools access to all tables or operations. Restrict to specific columns, rows, and operations via the MCP server layer.</li>
+        <li><strong>Audit and Log Everything:</strong> Log every tool invocation, including the context, parameters, and result. This is critical for debugging and compliance.</li>
+        <li><strong>Rate Limit and Throttle:</strong> Implement rate limits on destructive operations. Prevent runaway loops that could cause cascading failures.</li>
+        <li><strong>Stage Environments First:</strong> Test AI agent flows against staging or test databases first, never production, until you're absolutely confident in the behavior.</li>
+        <li><strong>Maintain Backups Independent of AI Access:</strong> Backups should be read-only to AI tools and stored separately. Never expose backup deletion to AI systems.</li>
+        <li><strong>Set Clear Boundaries in Prompts:</strong> Be explicit in system prompts about what the AI should and shouldn't do. "You can read customer data" vs. "You absolutely cannot delete any data."</li>
+      </ul>
+
+      <h3>The Bigger Picture</h3>
+      <p>MCP is a tool for connecting AI to external systems. Like any powerful tool, it can cause harm if misused. The responsibility is on you as the developer to:</p>
+      <ul>
+        <li>Assume the AI will misinterpret requests sometimes</li>
+        <li>Design systems that fail safely, not catastrophically</li>
+        <li>Make destructive actions expensive (multiple confirmations, delays)</li>
+        <li>Make safe actions cheap (read-only is fast and unrestricted)</li>
+      </ul>
+
+      <div class="callout">
+        <p><strong>Remember:</strong> Intelligence without awareness of consequences is dangerous. Before connecting an AI tool to production systems via MCP, ask yourself: "What's the worst that could happen?" Then engineer against it.</p>
+      </div>
+    </article>
+  </main>
+
+  <footer>
+    © 2026 Sambhav. Writing about software design, development, and scalable systems.
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <script src="../assets/syntax-highlighting.js"></script>
+</body>
+</html>
